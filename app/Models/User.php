@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->roles()->save($role);
     }
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
 }
