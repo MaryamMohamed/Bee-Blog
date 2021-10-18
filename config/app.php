@@ -175,8 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //-----added services by me-----//
         Laravel\Socialite\SocialiteServiceProvider::class,
-        
+        Laratrust\LaratrustServiceProvider::class,
+
     ],
 
     /*
@@ -231,7 +233,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        //----- added alliases by me -----//
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Laratrust'   => Laratrust\LaratrustFacade::class,
+
     ],
 
 ];
