@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Update My Blog') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('storeBlog') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('updateBlog', $blog->id) }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">

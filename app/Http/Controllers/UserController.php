@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\User;
 use App\DataTables\BlogDataTable;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use File;
 
 class UserController extends Controller
 {
@@ -24,9 +26,13 @@ class UserController extends Controller
 
     public function index()
     {
-        // show my all blogs 
-        $blogs = auth()->user()->blogs()->orderBy('created_at', 'desc')->paginate(6);
-        return view('user.blogs.index', compact('blogs'));
+        
+            
+            // show my all blogs 
+            $blogs = auth()->user()->blogs()->orderBy('created_at', 'desc')->paginate(6);
+            //if(Auth::user() == $blogs->user_id){
+                return view('user.blogs.index', compact('blogs'));
+            //}
 
     }
 
@@ -47,6 +53,10 @@ class UserController extends Controller
         ]
         );
 
+        $blog = new Blog();
+        $blog ->title = $request['title'];
+        $blog ->description = $request['description'];
+
         if ($files = $request->file('image')) {
             $destinationPath = 'blogs/'; // upload path
             $blogImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
@@ -54,24 +64,22 @@ class UserController extends Controller
             $blog ->image = $blogImage;
         }
 
-        $blog = new Blog();
-        $blog ->title = $request['title'];
-        $blog ->description = $request['description'];
-        
-
         if ($request->user()->blogs()->save($blog)){
             
             $message = "Your blog Has Been Sent SUCCESSFULLY";
         }
 
-        return view('user.blogs.index')->with('message');
+        return redirect()->route('indexBlog');// view('user.blogs.index')->with('message');
     }
 
     public function show($id)
     {
         //show a blog
         $blog = Blog::where('id',$id)->first();
-        return view('user.blogs.show', compact('blog'));
+        if(Auth::user() == $blog->user){
+            return view('user.blogs.show', compact('blog'));
+        }
+        return redirect()->route('indexBlog'); 
     }
 
     
@@ -79,7 +87,10 @@ class UserController extends Controller
     {
         //show form to edit the blog
         $blog = Blog::find($id);
-        return view('user.blogs.edit', compact('blog'));
+        if(Auth::user() == $blog->user){
+            return view('user.blogs.edit', compact('blog'));
+        }
+        return redirect()->route('indexBlog'); 
 
     }
 
@@ -103,11 +114,12 @@ class UserController extends Controller
             $destinationPath = 'blogs/'; // upload path
             $blogImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
             $files->move($destinationPath, $blogImage);
-            $blog ->image = $blogImage;
+            $blog->image = $blogImage;
         }
-
-        $blog->save();
-
+        if(Auth::user() == $blog->user){
+            $blog->save();
+            return redirect()->route('indexBlog');
+        }
         return redirect()->route('indexBlog');
     }
 
@@ -115,7 +127,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         //delete a blog
-        Blog::find($id)->delete();
-        return redirect()->route('indexBlog');
+        $blog = Blog::find($id);
+        if(Auth::user() == $blog->user){
+            Blog::find($id)->delete();
+            return redirect()->route('indexBlog');
+        }
     }
 }

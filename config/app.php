@@ -237,7 +237,7 @@ return [
         //----- added alliases by me -----//
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Laratrust' => Laratrust\LaratrustFacade::class,
-        'DataTables'=> Yajra\DataTables\DataTablesServiceProvider::class,
+        'DataTables'=> Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];

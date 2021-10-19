@@ -16,10 +16,13 @@ use App\Http\Controllers\BlogController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+Route::get('/', [BlogController::class, 'index'])->name('welcome');
+Route::get('blogs/{id}', [BlogController::class, 'show'])->name('viewBlog');
 
 Auth::routes();
 
@@ -37,6 +40,9 @@ Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebook
 Route::group(['prefix' => 'admin/', 'middleware' => ['role:administrator']], function(){
     # code...
     Route::get('dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('adminDashboard');
+    Route::post('dashboard/blogs/approveBlog/{id}', [AdminController::class, 'approveBlog'])->name('approveBlog');
+    Route::post('dashboard/blogs/pendBlog/{id}', [AdminController::class, 'pendBlog'])->name('pendBlog');
+    Route::post('dashboard/blogs/declineBlog/{id}', [AdminController::class, 'declineBlog'])->name('declineBlog');
 });
 
 
