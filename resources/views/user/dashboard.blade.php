@@ -10,6 +10,12 @@
                 <div class="card-body">
                     {{ __('You are logged in as user!') }}
                 </div>
+                <a href="{{ route('indexBlog') }}" style="margin-top: 20px;" class="btn btn-lg btn-success btn-block">
+                    <strong>View My Blogs</strong>
+                </a> 
+                <a href="{{ route('createBlog') }}" style="margin-top: 20px;" class="btn btn-lg btn-success btn-block">
+                    <strong>Create New Blog</strong>
+                </a> 
             </div>
         </div>
     </div>

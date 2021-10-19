@@ -178,6 +178,7 @@ return [
         //-----added services by me-----//
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laratrust\LaratrustServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
 
     ],
 
@@ -235,8 +236,8 @@ return [
 
         //----- added alliases by me -----//
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Laratrust'   => Laratrust\LaratrustFacade::class,
-
+        'Laratrust' => Laratrust\LaratrustFacade::class,
+        'DataTables'=> Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
 ];

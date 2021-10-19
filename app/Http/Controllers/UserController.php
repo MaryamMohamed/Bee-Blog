@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\User;
+use App\DataTables\BlogDataTable;
 
 use Illuminate\Http\Request;
 
@@ -42,20 +43,28 @@ class UserController extends Controller
         $this -> validate($request, [
             'title' => 'required',
             'description' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]
         );
+
+        if ($files = $request->file('image')) {
+            $destinationPath = 'blogs/'; // upload path
+            $blogImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $blogImage);
+            $blog ->image = $blogImage;
+        }
 
         $blog = new Blog();
         $blog ->title = $request['title'];
         $blog ->description = $request['description'];
-        $blog ->image = $request['image'];
+        
 
         if ($request->user()->blogs()->save($blog)){
             
             $message = "Your blog Has Been Sent SUCCESSFULLY";
         }
 
-        return view('user.blogs.create', compact('message'));
+        return view('user.blogs.index')->with('message');
     }
 
     public function show($id)
@@ -81,6 +90,7 @@ class UserController extends Controller
         $this -> validate($request, [
             'title' => 'required',
             'description' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]
         );
         
@@ -88,7 +98,13 @@ class UserController extends Controller
 
         $blog->title = $request->title;
         $blog->description = $request->description;
-        $blog->image = $request->image;
+
+        if ($files = $request->file('image')) {
+            $destinationPath = 'blogs/'; // upload path
+            $blogImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $blogImage);
+            $blog ->image = $blogImage;
+        }
 
         $blog->save();
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\User;
+use App\DataTables\BlogDataTable;
 
 class BlogController extends Controller
 {
@@ -12,6 +13,7 @@ class BlogController extends Controller
     {
         // show all blog posts
         $blogs = Blog::where('status', 'pended')->orderBy('created_at','desc')->paginate(5);
+        //return $dataTable->render('user.blogs.index', compact('blogs')); used to return all blogs
     }
 
     public function create()

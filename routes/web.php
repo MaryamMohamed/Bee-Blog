@@ -47,8 +47,8 @@ Route::group(['prefix' => 'user/', 'middleware' => ['role:user']], function(){
     Route::get('dashboard/blogs/myIndex', [UserController::class, 'index'])->name('indexBlog');
     Route::get('dashboard/blogs/create', [UserController::class, 'create'])->name('createBlog');
     Route::post('dashboard/blogs/store', [UserController::class, 'store'])->name('storeBlog');
-    Route::get('dashboard/blogs/{id}', [UserController::class, 'show']);
-    Route::get('dashboard/blogs/edit/{id}', [UserController::class, 'edit']);
+    Route::get('dashboard/blogs/{id}', [UserController::class, 'show'])->name('showBlog');
+    Route::get('dashboard/blogs/edit/{id}', [UserController::class, 'edit'])->name('editBlog');
     Route::post('dashboard/blogs/update/{id}', [UserController::class, 'update'])->name('updateBlog');
-    Route::post('dashboard/blogs/destroy/{id}', [UserController::class, 'destroy'])->name('destroyBlog');
+    Route::get('dashboard/blogs/destroy/{id}', [UserController::class, 'destroy'])->name('destroyBlog');
 });
