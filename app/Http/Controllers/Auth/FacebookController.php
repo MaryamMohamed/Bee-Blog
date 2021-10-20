@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\User;
+use App\Models\Role;
 
 use Auth;
 use Exception;  
@@ -27,19 +28,21 @@ class FacebookController extends Controller
      
             if($finduser){
                 Auth::login($finduser);    
-                return redirect('/home');
+                return redirect('/user/dashboard');
      
             }else{
+                $role = Role::where('name', 'user')->first();
                 $newUser = User::create([
-                    'id' => $user->id,
+                    'id' => $user->getId(),
                     'name' => $user->name,
                     'email' => $user->email,
                     'facebook_id'=> $user->id,
                     'password' => encrypt('newUser1234')
                 ]);
-    
+
+                $newUser->assignRole($role);
                 Auth::login($newUser);
-                return redirect('/home');
+                return redirect('/user/dashboard');
             }
     
         } catch (Exception $exception) {

@@ -23,7 +23,7 @@
                     <p>Created At: {{ $blog->created_at }}</p>
                 </div>
                 <div class="col-md-6 offset-md-4">
-                    <a href="{{ route('indexBlog') }}" class="btn btn-danger btn-sm"><i class="">Back</i></a>
+                    <a href="{{ route('welcome') }}" class="btn btn-danger btn-sm"><i class="">Back</i></a>
                 </div>
             </div>
         </div>

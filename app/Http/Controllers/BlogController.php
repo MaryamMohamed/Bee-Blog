@@ -32,7 +32,7 @@ class BlogController extends Controller
         //show a blog post
         $blog = Blog::where('id',$id)->first();
         if($blog->status=='approved'){
-            return view('user.blogs.show', compact('blog'));
+            return view('show', compact('blog'));
         }
         return redirect()->route('welcome');
     }

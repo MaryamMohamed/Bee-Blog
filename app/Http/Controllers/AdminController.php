@@ -5,6 +5,7 @@ use App\Models\Blog;
 use App\Models\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AdminController extends Controller
 {
@@ -25,14 +26,14 @@ class AdminController extends Controller
     public function show($id)
     {
         # code...
-        $blog = Blog::where('id',$id)->first();
+        $blog = Blog::findOrFail($id);
         return view('admin.blogs', compact('blog'));
         
     }
 
     public function approveBlog($id)
     {
-        $blog = Blog::find($id);
+        $blog = Blog::findOrFail($id);
 
         $blog->status = 'approved';
         $blog->save();
@@ -41,7 +42,7 @@ class AdminController extends Controller
 
     public function pendBlog($id)
     {
-        $blog = Blog::find($id);
+        $blog = Blog::findOrFail($id);
 
         $blog->status = 'pended';
         $blog->save();
@@ -50,7 +51,7 @@ class AdminController extends Controller
 
     public function declineBlog($id)
     {
-        $blog = Blog::find($id);
+        $blog = Blog::findOrFail($id);
 
         $blog->status = 'declined';
         $blog->save();

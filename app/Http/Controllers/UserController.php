@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use File;
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 class UserController extends Controller
 {
     //
@@ -30,10 +30,7 @@ class UserController extends Controller
             
             // show my all blogs 
             $blogs = auth()->user()->blogs()->orderBy('created_at', 'desc')->paginate(6);
-            //if(Auth::user() == $blogs->user_id){
-                return view('user.blogs.index', compact('blogs'));
-            //}
-
+            return view('user.blogs.index', compact('blogs'));
     }
 
     public function create()
@@ -75,7 +72,7 @@ class UserController extends Controller
     public function show($id)
     {
         //show a blog
-        $blog = Blog::where('id',$id)->first();
+        $blog = Blog::findOrFail($id);
         if(Auth::user() == $blog->user){
             return view('user.blogs.show', compact('blog'));
         }
@@ -86,7 +83,7 @@ class UserController extends Controller
     public function edit($id)
     {
         //show form to edit the blog
-        $blog = Blog::find($id);
+        $blog = Blog::findOrFail($id);
         if(Auth::user() == $blog->user){
             return view('user.blogs.edit', compact('blog'));
         }
@@ -105,7 +102,7 @@ class UserController extends Controller
         ]
         );
         
-        $blog = Blog::find($id);
+        $blog = Blog::findOrFail($id);
 
         $blog->title = $request->title;
         $blog->description = $request->description;
@@ -127,10 +124,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         //delete a blog
-        $blog = Blog::find($id);
+        $blog = Blog::findOrFail($id);
         if(Auth::user() == $blog->user){
             Blog::find($id)->delete();
-            return redirect()->route('indexBlog');
         }
         return redirect()->route('indexBlog');
     }
