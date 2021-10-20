@@ -40,9 +40,10 @@ Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebook
 Route::group(['prefix' => 'admin/', 'middleware' => ['role:administrator']], function(){
     # code...
     Route::get('dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('adminDashboard');
-    Route::post('dashboard/blogs/approveBlog/{id}', [AdminController::class, 'approveBlog'])->name('approveBlog');
-    Route::post('dashboard/blogs/pendBlog/{id}', [AdminController::class, 'pendBlog'])->name('pendBlog');
-    Route::post('dashboard/blogs/declineBlog/{id}', [AdminController::class, 'declineBlog'])->name('declineBlog');
+    Route::get('dashboard/ablog/{id}', [AdminController::class, 'show'])->name('adminShowBlog');
+    Route::post('dashboard/blog/approveBlog/{id}', [AdminController::class, 'approveBlog'])->name('approveBlog');
+    Route::post('dashboard/blog/pendBlog/{id}', [AdminController::class, 'pendBlog'])->name('pendBlog');
+    Route::post('dashboard/blog/declineBlog/{id}', [AdminController::class, 'declineBlog'])->name('declineBlog');
 });
 
 
@@ -53,7 +54,7 @@ Route::group(['prefix' => 'user/', 'middleware' => ['role:user']], function(){
     Route::get('dashboard/blogs/myIndex', [UserController::class, 'index'])->name('indexBlog');
     Route::get('dashboard/blogs/create', [UserController::class, 'create'])->name('createBlog');
     Route::post('dashboard/blogs/store', [UserController::class, 'store'])->name('storeBlog');
-    Route::get('dashboard/blogs/{id}', [UserController::class, 'show'])->name('showBlog');
+    Route::get('dashboard/blog/{id}', [UserController::class, 'show'])->name('showBlog');
     Route::get('dashboard/blogs/edit/{id}', [UserController::class, 'edit'])->name('editBlog');
     Route::post('dashboard/blogs/update/{id}', [UserController::class, 'update'])->name('updateBlog');
     Route::get('dashboard/blogs/destroy/{id}', [UserController::class, 'destroy'])->name('destroyBlog');

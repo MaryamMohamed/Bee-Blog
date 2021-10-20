@@ -22,6 +22,14 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('blogs'));
     }
 
+    public function show($id)
+    {
+        # code...
+        $blog = Blog::where('id',$id)->first();
+        return view('admin.blogs', compact('blog'));
+        
+    }
+
     public function approveBlog($id)
     {
         $blog = Blog::find($id);

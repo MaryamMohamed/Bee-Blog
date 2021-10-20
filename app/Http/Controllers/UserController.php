@@ -132,5 +132,6 @@ class UserController extends Controller
             Blog::find($id)->delete();
             return redirect()->route('indexBlog');
         }
+        return redirect()->route('indexBlog');
     }
 }

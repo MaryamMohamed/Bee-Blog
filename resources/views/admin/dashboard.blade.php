@@ -1,7 +1,7 @@
-@extends('layouts.layouts.master')
+@extends('layouts.adminLayouts.master')
 
 @section('title')
-			Welcome to Digital CRM!
+			Admin Dashboard
 @endsection()
 
 
@@ -51,6 +51,9 @@
                             {{ csrf_field() }}
                             <button type="submit" class="btn btn-danger">Decline</button> 
                           </form>
+                        </td>
+                        <td>
+                          <button type="submit" class="btn r"><a href="{{route('adminShowBlog', $blog->id)}}" style="color: white"> Show</a></button> 
                         </td>
                        </tr>
                        @endforeach()
