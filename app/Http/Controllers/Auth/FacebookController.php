@@ -23,7 +23,7 @@ class FacebookController extends Controller
     {
         try {
     
-            $user = Socialite::driver('google')->user();
+            $user = Socialite::driver('facebook')->user();
             $finduser = User::where('facebook_id', $user->id)->first();
      
             if($finduser){
@@ -33,7 +33,7 @@ class FacebookController extends Controller
             }else{
                 $role = Role::where('name', 'user')->first();
                 $newUser = User::create([
-                    'id' => $user->getId(),
+                    'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
                     'facebook_id'=> $user->id,
