@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\GoogleController;
-use App\Http\Controllers\Auth\FacebookController;
+use App\Http\Controllers\Auth\SocialMediaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
@@ -16,25 +15,15 @@ use App\Http\Controllers\BlogController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
 Route::get('/', [BlogController::class, 'index'])->name('welcome');
 Route::get('blogs/{id}', [BlogController::class, 'show'])->name('viewBlog');
 
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// social media login routes
+Route::get('/auth/{provider}', [SocialMediaController::class, 'redirectToProvider'])->where('provider','facebook|google');
+Route::get('/auth/{provider}/callback', [SocialMediaController::class, 'handleProviderCallback'])->where('provider','facebook|google');
 
-//routes for google redirect
-Route::get('auth/google', [GoogleController::class,'redirectToGoogle']);
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
-
-//routes for facebook redirect
-Route::get('auth/facebook', [FacebookController::class, 'redirectToFacebook']);
-Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
 
 //admin routes
 Route::group(['prefix' => 'admin/', 'middleware' => ['role:administrator']], function(){
