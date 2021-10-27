@@ -11,7 +11,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class BlogDataTable extends DataTable
 {
-    protected $actions = ['Approve', 'Pend', 'Decline'];
+    //protected $actions = ['Approve', 'Pend', 'Decline'];
     /**
      * Build DataTable class.
      *
@@ -22,7 +22,7 @@ class BlogDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('actions', 'blog.action');
+            ->addColumn('actions', view("admin.actions"));
     }
 
     /**
