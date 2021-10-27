@@ -7,6 +7,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+//use Datatables;
+use Yajra\Datatables\Datatables;
+
+
 class AdminController extends Controller
 {
     //
@@ -16,13 +20,35 @@ class AdminController extends Controller
         $this->middleware(['role:administrator']);
     }
 
+    public function index(Request $request)
+    {
+        # code...
+        if ($request->ajax()) {
+            # code...
+            $data = Blog::latest()->get();
+            return DataTables::of($data)
+                    ->addColumn('action', function($data){
+                        $button = '<button type="button" name="approve" id="'.$data->id.'" class="approve btn btn-primary btn-sm">Edit</button>';
+                        $button .= '&nbsp;&nbsp;&nbsp;<button type="button" name="decline" id="'.$data->id.'" class="decline btn btn-danger btn-sm">Delete</button>';
+                        return $button;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+    return view('admin.dashboard');
+    }
     public function dashboard()
     {
         # view user dashboard
-        $blogs = Blog::orderBy('id', 'desc')->paginate(10);;
-        return view('admin.dashboard', compact('blogs'));
+        //$blogs = Blog::all();
+    return view('admin.dashboard'/*, compact('blogs')*/);
     }
 
+    public function getBlogs()
+    {
+        # code...
+        return Datatables::of(Blog::query())->make(true);
+    }
     public function show($id)
     {
         # code...

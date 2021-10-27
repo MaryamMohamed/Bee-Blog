@@ -11,6 +11,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class BlogDataTable extends DataTable
 {
+    protected $actions = ['Approve', 'Pend', 'Decline'];
     /**
      * Build DataTable class.
      *
@@ -21,7 +22,7 @@ class BlogDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'blog.action');
+            ->addColumn('actions', 'blog.action');
     }
 
     /**
@@ -32,7 +33,7 @@ class BlogDataTable extends DataTable
      */
     public function query(Blog $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->select('title', 'description', 'image', 'status');
     }
 
     /**
@@ -43,10 +44,10 @@ class BlogDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('blog-table')
+                    ->setTableId('myTable')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->orderBy(1);                    
+                    ->orderBy(1);   
     }
 
     /**
@@ -61,7 +62,8 @@ class BlogDataTable extends DataTable
             'title',
             'description',
             'image',
-            'status'
+            'status',
+            'actions'
         ];
     }
 

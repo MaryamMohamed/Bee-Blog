@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\SocialMediaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
+use App\DataTables\BlogDataTable;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +29,13 @@ Route::get('/auth/{provider}/callback', [SocialMediaController::class, 'handlePr
 //admin routes
 Route::group(['prefix' => 'admin/', 'middleware' => ['role:administrator']], function(){
     # code...
-    Route::get('dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('adminDashboard');
+    Route::get('', function (BlogDataTable $dataTable)
+    {
+        # code...
+        return $dataTable->render('admin.dashboard');
+    })->name('adminDashboard');
+    //Route::get('dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('adminDashboard');
+    Route::get('blogs', 'App\Http\Controllers\AdminController@getBlogs')->name('get.blogs');
     Route::get('dashboard/ablog/{id}', [AdminController::class, 'show'])->name('adminShowBlog');
     Route::post('dashboard/blog/approveBlog/{id}', [AdminController::class, 'approveBlog'])->name('approveBlog');
     Route::post('dashboard/blog/pendBlog/{id}', [AdminController::class, 'pendBlog'])->name('pendBlog');
