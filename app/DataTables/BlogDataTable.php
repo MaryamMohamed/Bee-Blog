@@ -22,7 +22,10 @@ class BlogDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('actions', view("admin.actions"));
+            ->addColumn('actions', function($row){
+                    return view('admin.actions',  compact('row'));
+            });
+//            ->addColumn('actions', view("admin.actions"));
     }
 
     /**
@@ -33,7 +36,7 @@ class BlogDataTable extends DataTable
      */
     public function query(Blog $model)
     {
-        return $model->newQuery()->select('title', 'description', 'image', 'status');
+        return $model->newQuery()->select('id', 'title', 'description', 'image', 'status');
     }
 
     /**
